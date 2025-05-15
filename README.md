@@ -136,7 +136,7 @@ import scanpy as sc
 sc.pl.umap(combined, color='dataset', save='_combined_by_dataset.png', show=True)
 ```
 
-[Affymetrix_microarray_process](./code/Affymetrix_microarray_process.html)
+The code for data processing and reproducing evaluation result in the paper are in Document. 
 
 # Data Relations:
 The following duplicate studies (right nodes) are not included in HR-VILAGE-3K3M, while their source studies (left leaves) are included in HR-VILAGE-3K3M.
