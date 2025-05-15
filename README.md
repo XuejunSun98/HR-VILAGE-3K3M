@@ -37,6 +37,7 @@ HR-VILAGE-3K3M/
 - **antibody/**: Raw antibody measurements with sample IDs matching those in the metadata, enabling integration with gene expression data at the subject level.
 
 # How to start:
+To use the HR-VILAGE-3K3M dataset, please access the dataset via [Hugging Face](https://huggingface.co/datasets/xuejun72/HR-VILAGE-3K3M).
 Users could directly download all files and read files locally.
 Alternatively, the following provides (partially) loading the dataset into Python using `dataset` package.
 ```python
@@ -45,7 +46,6 @@ import pandas as pd
 from datasets import load_dataset
 ```
 ## Bulk gene expression data
-To use the HR-VILAGE-3K3M dataset, please access the dataset via ![Hugging Face](https://huggingface.co/datasets/xuejun72/HR-VILAGE-3K3M).
 
 Bulk gene expression data can be loaded and combined using two alternative approaches.
 
