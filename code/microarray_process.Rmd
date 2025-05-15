@@ -1,0 +1,121 @@
+---
+title: "Affymetrix Microarray Data Preprocessing"
+author: "Xuejun Sun"
+date: "2025-05-03"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+  echo = TRUE,
+  warning = FALSE,
+  message = FALSE
+)
+```
+
+```{r}
+###loading packages
+library(GEOquery)
+library(ggplot2)
+library(preprocessCore)
+library(affy)     # For Affymetrix microarray data
+library(HGNChelper)
+library(limma)
+library(dplyr)
+library(tidyr)
+library(corrplot)
+```
+
+
+```{r}
+### Set working directory and load raw data
+setwd("/Users/xuejunsun/Library/CloudStorage/OneDrive-UniversityofNorthCarolinaatChapelHill/Study/2025 spring/RA/Data Preprocessing/Vaccine/GSE74817/GSE74816_RAW")  # Set directory to where CEL files 
+raw_data <- ReadAffy()
+normalized_data <- rma(raw_data, normalize = FALSE)
+expr_matrix <- exprs(normalized_data)
+colnames(expr_matrix) <- sub("_.*", "", colnames(expr_matrix))  # Remove suffix after "_"
+### Convert to data frame
+expr_matrix <- as.data.frame(expr_matrix)
+
+### Map probe IDs to gene symbols
+geo <- getGEO("GSE74816", GSEMatrix = TRUE)[[1]]
+features <- fData(geo)[, c("ID", "Gene Symbol")]
+features$`Gene Symbol` <- sub("///.*", "", features$`Gene Symbol`)
+features$Symbol <- checkGeneSymbols(features$`Gene Symbol`)$Suggested.Symbol
+features <- features[, c("ID", "Symbol")]
+
+### Join gene symbols and filter by highest median expression
+expr_matrix$ID <- rownames(expr_matrix)
+expr_matrix <- left_join(expr_matrix, features, by = "ID") %>%
+  select(-ID) %>%
+  filter(!is.na(Symbol)) %>%
+  rowwise() %>%
+  mutate(RowMedian = median(c_across(where(is.numeric)), na.rm = TRUE)) %>%
+  ungroup() %>%
+  group_by(Symbol) %>%
+  slice_max(RowMedian, with_ties = FALSE) %>%
+  ungroup() %>%
+  select(-RowMedian)%>%
+  as.data.frame()
+
+### Final formatting
+expr_matrix <- na.omit(expr_matrix)
+rownames(expr_matrix) <- expr_matrix$Symbol
+expr_matrix <- expr_matrix[, -which(names(expr_matrix) == "Symbol")]
+
+#write.csv(expr_matrix,"~/GSE74816_gene_expr.csv")
+
+### Quantile normalization
+data <- normalize.quantiles(as.matrix(expr_matrix))
+data <- as.data.frame(data)
+rownames(data) <- rownames(expr_matrix)
+colnames(data) <- colnames(expr_matrix)
+
+###save data
+#write.csv(data,"~/GSE74816_gene_expr_processed.csv")
+```
+
+# get meta data from GEO for visualization
+
+```{r}
+meta<-geo@phenoData@data
+sum(rownames(meta)==colnames(data))
+```
+
+
+
+# Visualize processed data
+
+```{r}
+###box plot of normalized samples
+
+data_long <- pivot_longer(data[,1:50], cols = everything(), names_to = "Variable", values_to = "Value")
+
+ggplot(data_long, aes(x = Variable, y =Value)) +
+  geom_boxplot() +
+  scale_fill_manual(values = c("TRUE" = "red", "FALSE" = "gray")) +
+  theme_minimal() +
+  labs(title = "Box Plot of QN samples",
+       x = "Variable",
+       y = "Value") +
+  theme(legend.position = "none")
+
+# Correlation plot
+m<-cor(data,method = "spearman")
+
+corrplot(m, tl.pos = "n",method = "color", col.lim = c(0.8, 1), col = COL1('Blues'),is.corr = FALSE, )
+
+
+# PCA plot
+pca_result <- prcomp(t(data), scale. = F)  # Scale features
+# Extract PCA results
+pca_scores <- as.data.frame(pca_result$x)  # PCA scores (PC1, PC2, etc.)
+pca_scores <- cbind(pca_scores, meta)  # Add covariates
+# PCA by observed time (continuous variable), there is some trend,using model to test
+ggplot(pca_scores, aes(x = PC1, y = PC2,color=`time point:ch1`)) +
+    geom_point(size = 3) +
+    labs(title = "PCA by timepoint", x = "PC1", y = "PC2") +
+    theme_minimal()
+
+```
+

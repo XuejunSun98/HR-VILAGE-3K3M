@@ -1,0 +1,142 @@
+---
+title: "paired_bulk_scRNAseq_analysis"
+author: "Xuejun Sun"
+date: "2025-05-14"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Load Required Packages
+
+```{r}
+library(xCell)
+library(tidyverse)
+library(ggplot2)
+```
+
+# Load and Prepare Data
+
+```{r}
+# Load gene expression and metadata
+expr_data <- read.csv("/Users/xuejunsun/Library/CloudStorage/OneDrive-UniversityofNorthCarolinaatChapelHill/Study/Dissertation/Project2/data/gene_expr2/GSE201533_gene_expr.csv", row.names = 1)
+meta_data <- read.csv("/Users/xuejunsun/Library/CloudStorage/OneDrive-UniversityofNorthCarolinaatChapelHill/Study/Dissertation/Project2/data/meta2/GSE201533_meta.csv", row.names = 1)
+
+# Transpose expression matrix (genes in rows -> columns)
+expr_data <- expr_data %>% t() %>% as.data.frame() %>% na.omit()
+
+# Subset by timepoints
+expr_day12 <- expr_data[,rownames(meta_data)[meta_data$timepoint %in% c(1, 2)] ]
+expr_day7  <- expr_data[,rownames(meta_data)[meta_data$timepoint == 7] ]
+```
+
+# Run xCell Analysis
+
+```{r}
+xcell_day12 <- xCellAnalysis(expr_day12, rnaseq = TRUE)
+xcell_day7  <- xCellAnalysis(expr_day7, rnaseq = TRUE)
+```
+
+# Define Cell Type Groupings and Summarize xCell Scores by Group
+
+```{r}
+cell_groups <- list(
+  "B cell" = c("B-cells", "naive B-cells", "Memory B-cells", 
+               "Class-switched memory B-cells", "pro B-cells", "Plasma cells"),
+  
+  "T cell" = c("CD4+ memory T-cells", "CD4+ naive T-cells", "CD4+ T-cells",
+               "CD4+ Tcm", "CD4+ Tem", "CD8+ naive T-cells", "CD8+ T-cells",
+               "CD8+ Tcm", "CD8+ Tem", "Th1 cells", "Th2 cells", "Tregs", "Tgd cells"),
+  
+  "Monocyte" = "Monocytes",
+  "Natural killer cell" = c("NK cells", "NKT"),
+  "Neutrophil" = "Neutrophils"
+)
+
+# Function to summarize scores using mean
+summarize_scores <- function(xcell_result, group_map) {
+  summarized <- sapply(group_map, function(cell_types) {
+    matched <- rownames(xcell_result) %in% cell_types
+    if (any(matched)) {
+      colMeans(xcell_result[matched, , drop = FALSE])
+    } else {
+      rep(0, ncol(xcell_result))
+    }
+  })
+  rowMeans(as.data.frame(t(summarized)))
+}
+
+# Apply to both timepoints
+xcell_summary_day7  <- summarize_scores(xcell_day7, cell_groups)
+xcell_summary_day12 <- summarize_scores(xcell_day12, cell_groups)
+```
+
+# scRNA-seq Estimated Cell Type Proportions Plot
+
+```{r}
+# Prepare scRNA-seq data in the same structure as xCell
+sc_df <- data.frame(
+  Cell_Type = c("B cell", "T cell", "Monocyte", "Natural killer cell", "Neutrophil"),
+  Day1 = c(0.151, 0.530, 0.119, 0.195, 0.005),
+  Day7 = c(0.181, 0.563, 0.078, 0.169, 0.009),
+  Source = "scRNA-seq"
+)
+
+# Convert to long format for plotting
+sc_long <- sc_df %>%
+  pivot_longer(cols = c(Day1, Day7), names_to = "Timepoint", values_to = "Proportion") %>%
+  mutate(Timepoint = factor(Timepoint, levels = c("Day1", "Day7")))
+
+# Bar plot of scRNA-seq proportions
+p<-ggplot(sc_long, aes(x = Cell_Type, y = Proportion, fill = Timepoint)) +
+  geom_bar(stat = "identity", position = "dodge", width = 0.6) +
+  theme_minimal(base_size = 14) +
+  scale_fill_manual(values = c("Day1" = "#E69F00", "Day7" = "#56B4E9")) +
+  labs(
+    x = "Cell Type",
+    y = "Proportion",
+    fill = "Timepoint"
+  ) +
+  theme(
+    axis.text.x = element_text(angle = 30, hjust = 1),
+    plot.title = element_text(hjust = 0.5, face = "bold")
+  )
+ggsave(filename = "/Users/xuejunsun/Library/CloudStorage/OneDrive-UniversityofNorthCarolinaatChapelHill/Study/Dissertation/Project2/plot/scRNAseq_cell_proportions.png", plot = p, width = 4, height = 4, dpi = 300,bg="white")
+```
+
+# xCell Enrichment Scores Plot
+
+```{r}
+# Combine into a data frame
+xcell_df <- data.frame(
+  Cell_Type = names(xcell_summary_day12),
+  Day1 = as.numeric(xcell_summary_day12),
+  Day7 = as.numeric(xcell_summary_day7),
+  Source = "xCell"
+)
+
+# Convert to long format for plotting
+xcell_long <- xcell_df %>%
+  pivot_longer(cols = c(Day1, Day7), names_to = "Timepoint", values_to = "Score") %>%
+  mutate(Timepoint = factor(Timepoint, levels = c("Day1", "Day7")))
+
+# Bar plot of xCell scores
+p<-ggplot(xcell_long, aes(x = Cell_Type, y = Score, fill = Timepoint)) +
+  geom_bar(stat = "identity", position = "dodge", width = 0.6) +
+  theme_minimal(base_size = 14) +
+  scale_fill_manual(values = c("Day1" = "#E69F00", "Day7" = "#56B4E9")) +
+  labs(
+    x = "Cell Type",
+    y = "xCell Enrichment Score",
+    fill = "Timepoint"
+  ) +
+  theme(
+    axis.text.x = element_text(angle = 30, hjust = 1),
+    plot.title = element_text(hjust = 0.5, face = "bold")
+  )
+ggsave(filename = "/Users/xuejunsun/Library/CloudStorage/OneDrive-UniversityofNorthCarolinaatChapelHill/Study/Dissertation/Project2/plot/Xcell.png", plot = p, width = 4, height = 4, dpi = 300,bg="white")
+
+```
+

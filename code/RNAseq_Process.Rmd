@@ -1,0 +1,117 @@
+---
+title: "RNA-seq_Process"
+author: "Xuejun Sun"
+date: "2025-05-03"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+  echo = TRUE,
+  warning = FALSE,
+  message = FALSE
+)
+```
+
+```{r}
+###loading packages
+library(GEOquery)
+library(ggplot2)
+library(preprocessCore)
+library(affy)     # For Affymetrix microarray data
+library(HGNChelper)
+library(limma)
+library(dplyr)
+library(tidyr)
+library(corrplot)
+library(biomaRt)
+library(edgeR)
+```
+
+
+```{r}
+### Set working directory and load raw data
+
+expr_matrix <- read.csv("/Users/xuejunsun/Library/CloudStorage/OneDrive-UniversityofNorthCarolinaatChapelHill/Study/Dissertation/Project2/data/gene_expr_raw2/GSE190001_PRIME_raw.csv",row.names = "X")
+
+### Map probe IDs to gene symbols
+GSE190001.ENSG <- rownames(expr_matrix)
+ensembl <- useMart("ensembl", dataset = "hsapiens_gene_ensembl")
+
+features <-  getBM(
+  attributes = c("ensembl_gene_id", "hgnc_symbol"),
+  filters = "ensembl_gene_id",
+  values = GSE190001.ENSG,
+  mart = ensembl
+)
+colnames(features)<-c("ID", "Symbol")
+features$Symbol <- checkGeneSymbols(features$Symbol)$Suggested.Symbol
+### Mapping transcript IDs to gene symbols and aggregates expression values by summing across rows with the same gene symbol, resulting in a gene-level expression matrix.
+expr_matrix$ID <- rownames(expr_matrix)
+expr_matrix <- left_join(expr_matrix, features, by = "ID") %>%
+  dplyr::select(-ID) %>%
+  filter(!is.na(Symbol)) %>%
+  group_by(Symbol) %>%
+  summarise(across(where(is.numeric), sum, na.rm = TRUE), .groups = "drop") %>%
+  as.data.frame()
+
+### Final formatting
+expr_matrix <- na.omit(expr_matrix)
+rownames(expr_matrix) <- expr_matrix$Symbol
+expr_matrix <- expr_matrix[, -which(names(expr_matrix) == "Symbol")]
+
+#write.csv(expr_matrix,"~/GSE190001_gene_expr.csv")
+
+### Counts Per Million (cpm) normalization
+data <- cpm(as.matrix(expr_matrix))
+data <- as.data.frame(data)
+
+###save data
+#write.csv(data,"~/GSE190001_gene_expr_processed.csv")
+```
+
+# get meta data from GEO for visualization
+
+```{r}
+geo <- getGEO("GSE190001", GSEMatrix = TRUE)[[1]]
+
+meta<-geo@phenoData@data[1:ncol(data),]
+sum(rownames(meta)==colnames(data))
+```
+
+
+
+# Visualize processed data
+
+```{r}
+###box plot of normalized samples
+
+data_long <- pivot_longer(data[,1:50], cols = everything(), names_to = "Variable", values_to = "Value")
+
+ggplot(data_long, aes(x = Variable, y =log2(Value+1))) +
+  geom_boxplot() +
+  scale_fill_manual(values = c("TRUE" = "red", "FALSE" = "gray")) +
+  theme_minimal() +
+  labs(title = "Box Plot of QN samples",
+       x = "Variable",
+       y = "Value") +
+  theme(legend.position = "none")
+
+# Correlation plot
+m<-cor(data,method = "spearman")
+
+corrplot(m, tl.pos = "n",method = "color", col.lim = c(0, 1), col = COL1('Blues'),is.corr = FALSE, )
+
+# PCA plot
+pca_result <- prcomp(t(data), scale. = F)  # Scale features
+# Extract PCA results
+pca_scores <- as.data.frame(pca_result$x)  # PCA scores (PC1, PC2, etc.)
+pca_scores <- cbind(pca_scores, meta)  # Add covariates
+# PCA by observed time (continuous variable), there is some trend,using model to test
+ggplot(pca_scores, aes(x = PC1, y = PC2,color=`timepoint:ch1`)) +
+    geom_point(size = 3) +
+    labs(title = "PCA by timepoint", x = "PC1", y = "PC2") +
+    theme_minimal()
+
+```
+
