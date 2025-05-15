@@ -1,0 +1,26 @@
+project:
+  type: website
+
+website:
+  title: HR-VILAGE-3K3M
+  navbar:
+    left:
+      - href: https://xuejunsun98.github.io/HR-VILAGE-3K3M/
+        text: Home
+    right:
+      - href: Affymetrix_microarray_process.qmd
+        text: Document
+
+  sidebar:
+    style: "floating"
+    contents:
+      - section: "Data Preprocessing"
+        contents:
+          - href: Affymetrix_microarray_process.qmd
+            text: Affymetrix Microarray Process
+          - href: Illumina_microarray_process.qmd
+            text: Illumina Microarray Process
+      - section: "Outcome Prediction Using Longitudinal Bulk Data"
+        contents:
+          - href: Antibody_Responder_Prediction.qmd
+            text: Antibody Responder Prediction

@@ -1,3 +1,7 @@
+<p align="right">
+  <a href="web/_site/Affymetrix_microarray_process.html">Document</a>
+</p>
+
 # HR-VILAGE-3K3M: Human Respiratory Viral Immunization Longitudinal Gene Expression
 
 This repository provides the HR-VILAGE-3K3M dataset, a curated collection of human longitudinal gene expression profiles, antibody measurements, and aligned metadata from respiratory viral immunization and infection studies. The dataset includes baseline transcriptomic profiles and covers diverse exposure types (vaccination, inoculation, and mixed exposure). HR-VILAGE-3K3M is designed as a benchmark resource to support the development and evaluation of deep learning models for longitudinal gene expression analysis and to facilitate research into the temporal dynamics of immune responses.
