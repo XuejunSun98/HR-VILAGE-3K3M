@@ -1,5 +1,6 @@
 project:
   type: website
+  output-dir: .
 
 website:
   title: HR-VILAGE-3K3M

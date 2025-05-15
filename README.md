@@ -1,5 +1,5 @@
 <p align="right">
-  <a href="web/_site/Affymetrix_microarray_process.html">Document</a>
+  <a href="docs/index.html">Document</a>
 </p>
 
 # HR-VILAGE-3K3M: Human Respiratory Viral Immunization Longitudinal Gene Expression
