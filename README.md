@@ -1,5 +1,5 @@
 <p align="right">
-  <a href="docs/index.html">Document</a>
+  <a href="https://xuejunsun98.github.io/HR-VILAGE-3K3M/docs/index.html">Document</a>
 </p>
 
 # HR-VILAGE-3K3M: Human Respiratory Viral Immunization Longitudinal Gene Expression
@@ -144,7 +144,7 @@ import scanpy as sc
 sc.pl.umap(combined, color='dataset', save='_combined_by_dataset.png', show=True)
 ```
 
-The codes for data processing and reproducing evaluation results in the paper are in [Documents](https://xuejunsun98.github.io/HR-VILAGE-3K3M/docs/index.html). 
+The codes for data processing and reproducing evaluation results in the paper are in [Document](https://xuejunsun98.github.io/HR-VILAGE-3K3M/docs/index.html). 
 
 # Data Relations:
 The following duplicate studies (right nodes) are not included in HR-VILAGE-3K3M, while their source studies (left leaves) are included in HR-VILAGE-3K3M.
