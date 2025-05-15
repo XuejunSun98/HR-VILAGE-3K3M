@@ -1,0 +1,1712 @@
+{
+  "@context": {
+    "@language": "en",
+    "@vocab": "https://schema.org/",
+    "arrayShape": "cr:arrayShape",
+    "citeAs": "cr:citeAs",
+    "column": "cr:column",
+    "conformsTo": "dct:conformsTo",
+    "cr": "http://mlcommons.org/croissant/",
+    "data": {
+      "@id": "cr:data",
+      "@type": "@json"
+    },
+    "dataBiases": "cr:dataBiases",
+    "dataCollection": "cr:dataCollection",
+    "dataType": {
+      "@id": "cr:dataType",
+      "@type": "@vocab"
+    },
+    "dct": "http://purl.org/dc/terms/",
+    "extract": "cr:extract",
+    "field": "cr:field",
+    "fileProperty": "cr:fileProperty",
+    "fileObject": "cr:fileObject",
+    "fileSet": "cr:fileSet",
+    "format": "cr:format",
+    "includes": "cr:includes",
+    "isArray": "cr:isArray",
+    "isLiveDataset": "cr:isLiveDataset",
+    "jsonPath": "cr:jsonPath",
+    "key": "cr:key",
+    "md5": "cr:md5",
+    "parentField": "cr:parentField",
+    "path": "cr:path",
+    "personalSensitiveInformation": "cr:personalSensitiveInformation",
+    "recordSet": "cr:recordSet",
+    "references": "cr:references",
+    "regex": "cr:regex",
+    "repeated": "cr:repeated",
+    "replace": "cr:replace",
+    "sc": "https://schema.org/",
+    "separator": "cr:separator",
+    "source": "cr:source",
+    "subField": "cr:subField",
+    "transform": "cr:transform"
+  },
+  "@type": "sc:Dataset",
+  "distribution": [
+    {
+      "@type": "cr:FileObject",
+      "@id": "repo",
+      "name": "repo",
+      "description": "The Hugging Face git repository.",
+      "contentUrl": "https://huggingface.co/datasets/xuejun72/HR-VILAGE-3K3M/tree/refs%2Fconvert%2Fparquet",
+      "encodingFormat": "git+https",
+      "sha256": "https://github.com/mlcommons/croissant/issues/80"
+    },
+    {
+      "@type": "cr:FileSet",
+      "@id": "parquet-files-for-config-study_meta",
+      "containedIn": {
+        "@id": "repo"
+      },
+      "encodingFormat": "application/x-parquet",
+      "includes": "study_meta/*/*.parquet"
+    },
+    {
+      "@type": "cr:FileSet",
+      "@id": "parquet-files-for-config-example_antibody",
+      "containedIn": {
+        "@id": "repo"
+      },
+      "encodingFormat": "application/x-parquet",
+      "includes": "example_antibody/*/*.parquet"
+    },
+    {
+      "@type": "cr:FileSet",
+      "@id": "parquet-files-for-config-example_bulk_gene_expr",
+      "containedIn": {
+        "@id": "repo"
+      },
+      "encodingFormat": "application/x-parquet",
+      "includes": "example_bulk_gene_expr/*/*.parquet"
+    },
+    {
+      "@type": "cr:FileSet",
+      "@id": "parquet-files-for-config-example_meta",
+      "containedIn": {
+        "@id": "repo"
+      },
+      "encodingFormat": "application/x-parquet",
+      "includes": "example_meta/*/*.parquet"
+    }
+  ],
+  "recordSet": [
+    {
+      "@type": "cr:RecordSet",
+      "dataType": "cr:Split",
+      "key": {
+        "@id": "study_meta_splits/split_name"
+      },
+      "@id": "study_meta_splits",
+      "name": "study_meta_splits",
+      "description": "Splits for the study_meta config.",
+      "field": [
+        {
+          "@type": "cr:Field",
+          "@id": "study_meta_splits/split_name",
+          "dataType": "sc:Text"
+        }
+      ],
+      "data": [
+        {
+          "study_meta_splits/split_name": "train"
+        }
+      ]
+    },
+    {
+      "@type": "cr:RecordSet",
+      "@id": "study_meta",
+      "description": "xuejun72/HR-VILAGE-3K3M - 'study_meta' subset",
+      "field": [
+        {
+          "@type": "cr:Field",
+          "@id": "study_meta/split",
+          "dataType": "sc:Text",
+          "source": {
+            "fileSet": {
+              "@id": "parquet-files-for-config-study_meta"
+            },
+            "extract": {
+              "fileProperty": "fullpath"
+            },
+            "transform": {
+              "regex": "study_meta/(?:partial-)?(train)/.+parquet$"
+            }
+          },
+          "references": {
+            "field": {
+              "@id": "study_meta_splits/split_name"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "study_meta/study_ID",
+          "dataType": "sc:Text",
+          "source": {
+            "fileSet": {
+              "@id": "parquet-files-for-config-study_meta"
+            },
+            "extract": {
+              "column": "study_ID"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "study_meta/platform",
+          "dataType": "sc:Text",
+          "source": {
+            "fileSet": {
+              "@id": "parquet-files-for-config-study_meta"
+            },
+            "extract": {
+              "column": "platform"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "study_meta/platform_detail",
+          "dataType": "sc:Text",
+          "source": {
+            "fileSet": {
+              "@id": "parquet-files-for-config-study_meta"
+            },
+            "extract": {
+              "column": "platform_detail"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "study_meta/study_type",
+          "dataType": "sc:Text",
+          "source": {
+            "fileSet": {
+              "@id": "parquet-files-for-config-study_meta"
+            },
+            "extract": {
+              "column": "study_type"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "study_meta/pathogen",
+          "dataType": "sc:Text",
+          "source": {
+            "fileSet": {
+              "@id": "parquet-files-for-config-study_meta"
+            },
+            "extract": {
+              "column": "pathogen"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "study_meta/vaccine",
+          "dataType": "sc:Text",
+          "source": {
+            "fileSet": {
+              "@id": "parquet-files-for-config-study_meta"
+            },
+            "extract": {
+              "column": "vaccine"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "study_meta/tissue",
+          "dataType": "sc:Text",
+          "source": {
+            "fileSet": {
+              "@id": "parquet-files-for-config-study_meta"
+            },
+            "extract": {
+              "column": "tissue"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "study_meta/raw_data",
+          "dataType": "sc:Text",
+          "source": {
+            "fileSet": {
+              "@id": "parquet-files-for-config-study_meta"
+            },
+            "extract": {
+              "column": "raw_data"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "study_meta/antibody",
+          "dataType": "sc:Text",
+          "source": {
+            "fileSet": {
+              "@id": "parquet-files-for-config-study_meta"
+            },
+            "extract": {
+              "column": "antibody"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "study_meta/num_subjects",
+          "dataType": "cr:Int64",
+          "source": {
+            "fileSet": {
+              "@id": "parquet-files-for-config-study_meta"
+            },
+            "extract": {
+              "column": "num_subjects"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "study_meta/num_observations",
+          "dataType": "cr:Int64",
+          "source": {
+            "fileSet": {
+              "@id": "parquet-files-for-config-study_meta"
+            },
+            "extract": {
+              "column": "num_observations"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "study_meta/num_cells",
+          "dataType": "cr:Float64",
+          "source": {
+            "fileSet": {
+              "@id": "parquet-files-for-config-study_meta"
+            },
+            "extract": {
+              "column": "num_cells"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "study_meta/meta_variable_list",
+          "dataType": "sc:Text",
+          "source": {
+            "fileSet": {
+              "@id": "parquet-files-for-config-study_meta"
+            },
+            "extract": {
+              "column": "meta_variable_list"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "@type": "cr:RecordSet",
+      "dataType": "cr:Split",
+      "key": {
+        "@id": "example_antibody_splits/split_name"
+      },
+      "@id": "example_antibody_splits",
+      "name": "example_antibody_splits",
+      "description": "Splits for the example_antibody config.",
+      "field": [
+        {
+          "@type": "cr:Field",
+          "@id": "example_antibody_splits/split_name",
+          "dataType": "sc:Text"
+        }
+      ],
+      "data": [
+        {
+          "example_antibody_splits/split_name": "train"
+        }
+      ]
+    },
+    {
+      "@type": "cr:RecordSet",
+      "@id": "example_antibody",
+      "description": "xuejun72/HR-VILAGE-3K3M - 'example_antibody' subset",
+      "field": [
+        {
+          "@type": "cr:Field",
+          "@id": "example_antibody/split",
+          "dataType": "sc:Text",
+          "source": {
+            "fileSet": {
+              "@id": "parquet-files-for-config-example_antibody"
+            },
+            "extract": {
+              "fileProperty": "fullpath"
+            },
+            "transform": {
+              "regex": "example_antibody/(?:partial-)?(train)/.+parquet$"
+            }
+          },
+          "references": {
+            "field": {
+              "@id": "example_antibody_splits/split_name"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "example_antibody/ID",
+          "dataType": "sc:Text",
+          "source": {
+            "fileSet": {
+              "@id": "parquet-files-for-config-example_antibody"
+            },
+            "extract": {
+              "column": "ID"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "example_antibody/A.CNIC.1909__Day_0",
+          "dataType": "cr:Float64",
+          "source": {
+            "fileSet": {
+              "@id": "parquet-files-for-config-example_antibody"
+            },
+            "extract": {
+              "column": "A.CNIC.1909: Day 0"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "example_antibody/A.CNIC.1909__Day_28",
+          "dataType": "cr:Float64",
+          "source": {
+            "fileSet": {
+              "@id": "parquet-files-for-config-example_antibody"
+            },
+            "extract": {
+              "column": "A.CNIC.1909: Day 28"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "example_antibody/A.HongKong.2671.2019__Day_0",
+          "dataType": "cr:Float64",
+          "source": {
+            "fileSet": {
+              "@id": "parquet-files-for-config-example_antibody"
+            },
+            "extract": {
+              "column": "A.HongKong.2671.2019: Day 0"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "example_antibody/A.HongKong.2671.2019__Day_28",
+          "dataType": "cr:Float64",
+          "source": {
+            "fileSet": {
+              "@id": "parquet-files-for-config-example_antibody"
+            },
+            "extract": {
+              "column": "A.HongKong.2671.2019: Day 28"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "example_antibody/B.Puket.3073.2013__Day_0",
+          "dataType": "cr:Float64",
+          "source": {
+            "fileSet": {
+              "@id": "parquet-files-for-config-example_antibody"
+            },
+            "extract": {
+              "column": "B.Puket.3073.2013: Day 0"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "example_antibody/B.Puket.3073.2013__Day_28",
+          "dataType": "cr:Float64",
+          "source": {
+            "fileSet": {
+              "@id": "parquet-files-for-config-example_antibody"
+            },
+            "extract": {
+              "column": "B.Puket.3073.2013: Day 28"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "example_antibody/B.Washington.02.2019__Day_0",
+          "dataType": "cr:Float64",
+          "source": {
+            "fileSet": {
+              "@id": "parquet-files-for-config-example_antibody"
+            },
+            "extract": {
+              "column": "B.Washington.02.2019: Day 0"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "example_antibody/B.Washington.02.2019__Day_28",
+          "dataType": "cr:Float64",
+          "source": {
+            "fileSet": {
+              "@id": "parquet-files-for-config-example_antibody"
+            },
+            "extract": {
+              "column": "B.Washington.02.2019: Day 28"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "example_antibody/H1.HA2.stem__Day_0",
+          "dataType": "cr:Float64",
+          "source": {
+            "fileSet": {
+              "@id": "parquet-files-for-config-example_antibody"
+            },
+            "extract": {
+              "column": "H1.HA2.stem: Day 0"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "example_antibody/H1.HA2.stem__Day_28",
+          "dataType": "cr:Float64",
+          "source": {
+            "fileSet": {
+              "@id": "parquet-files-for-config-example_antibody"
+            },
+            "extract": {
+              "column": "H1.HA2.stem: Day 28"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "example_antibody/H1.HA2.stem__Day_7",
+          "dataType": "cr:Float64",
+          "source": {
+            "fileSet": {
+              "@id": "parquet-files-for-config-example_antibody"
+            },
+            "extract": {
+              "column": "H1.HA2.stem: Day 7"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "example_antibody/H1N1.HA1..A.Hawaii.70.2019.__Day_0",
+          "dataType": "cr:Float64",
+          "source": {
+            "fileSet": {
+              "@id": "parquet-files-for-config-example_antibody"
+            },
+            "extract": {
+              "column": "H1N1.HA1..A.Hawaii.70.2019.: Day 0"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "example_antibody/H1N1.HA1..A.Hawaii.70.2019.__Day_28",
+          "dataType": "cr:Float64",
+          "source": {
+            "fileSet": {
+              "@id": "parquet-files-for-config-example_antibody"
+            },
+            "extract": {
+              "column": "H1N1.HA1..A.Hawaii.70.2019.: Day 28"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "example_antibody/H1N1.HA1..A.Hawaii.70.2019.__Day_7",
+          "dataType": "cr:Float64",
+          "source": {
+            "fileSet": {
+              "@id": "parquet-files-for-config-example_antibody"
+            },
+            "extract": {
+              "column": "H1N1.HA1..A.Hawaii.70.2019.: Day 7"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "example_antibody/MFC",
+          "dataType": "cr:Float64",
+          "source": {
+            "fileSet": {
+              "@id": "parquet-files-for-config-example_antibody"
+            },
+            "extract": {
+              "column": "MFC"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "example_antibody/responder",
+          "dataType": "sc:Text",
+          "source": {
+            "fileSet": {
+              "@id": "parquet-files-for-config-example_antibody"
+            },
+            "extract": {
+              "column": "responder"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "@type": "cr:RecordSet",
+      "dataType": "cr:Split",
+      "key": {
+        "@id": "example_bulk_gene_expr_splits/split_name"
+      },
+      "@id": "example_bulk_gene_expr_splits",
+      "name": "example_bulk_gene_expr_splits",
+      "description": "Splits for the example_bulk_gene_expr config.",
+      "field": [
+        {
+          "@type": "cr:Field",
+          "@id": "example_bulk_gene_expr_splits/split_name",
+          "dataType": "sc:Text"
+        }
+      ],
+      "data": [
+        {
+          "example_bulk_gene_expr_splits/split_name": "train"
+        }
+      ]
+    },
+    {
+      "@type": "cr:RecordSet",
+      "@id": "example_bulk_gene_expr",
+      "description": "xuejun72/HR-VILAGE-3K3M - 'example_bulk_gene_expr' subset",
+      "field": [
+        {
+          "@type": "cr:Field",
+          "@id": "example_bulk_gene_expr/split",
+          "dataType": "sc:Text",
+          "source": {
+            "fileSet": {
+              "@id": "parquet-files-for-config-example_bulk_gene_expr"
+            },
+            "extract": {
+              "fileProperty": "fullpath"
+            },
+            "transform": {
+              "regex": "example_bulk_gene_expr/(?:partial-)?(train)/.+parquet$"
+            }
+          },
+          "references": {
+            "field": {
+              "@id": "example_bulk_gene_expr_splits/split_name"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "example_bulk_gene_expr/Unnamed__0",
+          "dataType": "sc:Text",
+          "source": {
+            "fileSet": {
+              "@id": "parquet-files-for-config-example_bulk_gene_expr"
+            },
+            "extract": {
+              "column": "Unnamed: 0"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "example_bulk_gene_expr/A1BG",
+          "dataType": "cr:Int64",
+          "source": {
+            "fileSet": {
+              "@id": "parquet-files-for-config-example_bulk_gene_expr"
+            },
+            "extract": {
+              "column": "A1BG"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "example_bulk_gene_expr/A1BG.AS1",
+          "dataType": "cr:Int64",
+          "source": {
+            "fileSet": {
+              "@id": "parquet-files-for-config-example_bulk_gene_expr"
+            },
+            "extract": {
+              "column": "A1BG.AS1"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "example_bulk_gene_expr/A1CF",
+          "dataType": "cr:Int64",
+          "source": {
+            "fileSet": {
+              "@id": "parquet-files-for-config-example_bulk_gene_expr"
+            },
+            "extract": {
+              "column": "A1CF"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "example_bulk_gene_expr/A2M",
+          "dataType": "cr:Int64",
+          "source": {
+            "fileSet": {
+              "@id": "parquet-files-for-config-example_bulk_gene_expr"
+            },
+            "extract": {
+              "column": "A2M"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "example_bulk_gene_expr/A2M.AS1",
+          "dataType": "cr:Int64",
+          "source": {
+            "fileSet": {
+              "@id": "parquet-files-for-config-example_bulk_gene_expr"
+            },
+            "extract": {
+              "column": "A2M.AS1"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "example_bulk_gene_expr/A2ML1",
+          "dataType": "cr:Int64",
+          "source": {
+            "fileSet": {
+              "@id": "parquet-files-for-config-example_bulk_gene_expr"
+            },
+            "extract": {
+              "column": "A2ML1"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "example_bulk_gene_expr/A2ML1.AS1",
+          "dataType": "cr:Float64",
+          "source": {
+            "fileSet": {
+              "@id": "parquet-files-for-config-example_bulk_gene_expr"
+            },
+            "extract": {
+              "column": "A2ML1.AS1"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "example_bulk_gene_expr/A2ML1.AS2",
+          "dataType": "cr:Float64",
+          "source": {
+            "fileSet": {
+              "@id": "parquet-files-for-config-example_bulk_gene_expr"
+            },
+            "extract": {
+              "column": "A2ML1.AS2"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "example_bulk_gene_expr/A2MP1",
+          "dataType": "cr:Float64",
+          "source": {
+            "fileSet": {
+              "@id": "parquet-files-for-config-example_bulk_gene_expr"
+            },
+            "extract": {
+              "column": "A2MP1"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "example_bulk_gene_expr/A3GALT2",
+          "dataType": "cr:Int64",
+          "source": {
+            "fileSet": {
+              "@id": "parquet-files-for-config-example_bulk_gene_expr"
+            },
+            "extract": {
+              "column": "A3GALT2"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "example_bulk_gene_expr/A4GALT",
+          "dataType": "cr:Int64",
+          "source": {
+            "fileSet": {
+              "@id": "parquet-files-for-config-example_bulk_gene_expr"
+            },
+            "extract": {
+              "column": "A4GALT"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "example_bulk_gene_expr/A4GNT",
+          "dataType": "cr:Int64",
+          "source": {
+            "fileSet": {
+              "@id": "parquet-files-for-config-example_bulk_gene_expr"
+            },
+            "extract": {
+              "column": "A4GNT"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "example_bulk_gene_expr/AAAS",
+          "dataType": "cr:Int64",
+          "source": {
+            "fileSet": {
+              "@id": "parquet-files-for-config-example_bulk_gene_expr"
+            },
+            "extract": {
+              "column": "AAAS"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "example_bulk_gene_expr/AACS",
+          "dataType": "cr:Int64",
+          "source": {
+            "fileSet": {
+              "@id": "parquet-files-for-config-example_bulk_gene_expr"
+            },
+            "extract": {
+              "column": "AACS"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "example_bulk_gene_expr/AACSP1",
+          "dataType": "cr:Int64",
+          "source": {
+            "fileSet": {
+              "@id": "parquet-files-for-config-example_bulk_gene_expr"
+            },
+            "extract": {
+              "column": "AACSP1"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "example_bulk_gene_expr/AADAC",
+          "dataType": "cr:Int64",
+          "source": {
+            "fileSet": {
+              "@id": "parquet-files-for-config-example_bulk_gene_expr"
+            },
+            "extract": {
+              "column": "AADAC"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "example_bulk_gene_expr/AADACL2",
+          "dataType": "cr:Float64",
+          "source": {
+            "fileSet": {
+              "@id": "parquet-files-for-config-example_bulk_gene_expr"
+            },
+            "extract": {
+              "column": "AADACL2"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "example_bulk_gene_expr/AADACL2.AS1",
+          "dataType": "cr:Float64",
+          "source": {
+            "fileSet": {
+              "@id": "parquet-files-for-config-example_bulk_gene_expr"
+            },
+            "extract": {
+              "column": "AADACL2.AS1"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "example_bulk_gene_expr/AADACL3",
+          "dataType": "cr:Int64",
+          "source": {
+            "fileSet": {
+              "@id": "parquet-files-for-config-example_bulk_gene_expr"
+            },
+            "extract": {
+              "column": "AADACL3"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "example_bulk_gene_expr/AADACL4",
+          "dataType": "cr:Int64",
+          "source": {
+            "fileSet": {
+              "@id": "parquet-files-for-config-example_bulk_gene_expr"
+            },
+            "extract": {
+              "column": "AADACL4"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "example_bulk_gene_expr/AADACP1",
+          "dataType": "cr:Float64",
+          "source": {
+            "fileSet": {
+              "@id": "parquet-files-for-config-example_bulk_gene_expr"
+            },
+            "extract": {
+              "column": "AADACP1"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "example_bulk_gene_expr/AADAT",
+          "dataType": "cr:Int64",
+          "source": {
+            "fileSet": {
+              "@id": "parquet-files-for-config-example_bulk_gene_expr"
+            },
+            "extract": {
+              "column": "AADAT"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "example_bulk_gene_expr/AAGAB",
+          "dataType": "cr:Int64",
+          "source": {
+            "fileSet": {
+              "@id": "parquet-files-for-config-example_bulk_gene_expr"
+            },
+            "extract": {
+              "column": "AAGAB"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "example_bulk_gene_expr/AAK1",
+          "dataType": "cr:Int64",
+          "source": {
+            "fileSet": {
+              "@id": "parquet-files-for-config-example_bulk_gene_expr"
+            },
+            "extract": {
+              "column": "AAK1"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "example_bulk_gene_expr/AAMDC",
+          "dataType": "cr:Int64",
+          "source": {
+            "fileSet": {
+              "@id": "parquet-files-for-config-example_bulk_gene_expr"
+            },
+            "extract": {
+              "column": "AAMDC"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "@type": "cr:RecordSet",
+      "dataType": "cr:Split",
+      "key": {
+        "@id": "example_meta_splits/split_name"
+      },
+      "@id": "example_meta_splits",
+      "name": "example_meta_splits",
+      "description": "Splits for the example_meta config.",
+      "field": [
+        {
+          "@type": "cr:Field",
+          "@id": "example_meta_splits/split_name",
+          "dataType": "sc:Text"
+        }
+      ],
+      "data": [
+        {
+          "example_meta_splits/split_name": "train"
+        }
+      ]
+    },
+    {
+      "@type": "cr:RecordSet",
+      "@id": "example_meta",
+      "description": "xuejun72/HR-VILAGE-3K3M - 'example_meta' subset",
+      "field": [
+        {
+          "@type": "cr:Field",
+          "@id": "example_meta/split",
+          "dataType": "sc:Text",
+          "source": {
+            "fileSet": {
+              "@id": "parquet-files-for-config-example_meta"
+            },
+            "extract": {
+              "fileProperty": "fullpath"
+            },
+            "transform": {
+              "regex": "example_meta/(?:partial-)?(train)/.+parquet$"
+            }
+          },
+          "references": {
+            "field": {
+              "@id": "example_meta_splits/split_name"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "example_meta/Unnamed__0",
+          "dataType": "sc:Text",
+          "source": {
+            "fileSet": {
+              "@id": "parquet-files-for-config-example_meta"
+            },
+            "extract": {
+              "column": "Unnamed: 0"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "example_meta/geo_accession",
+          "dataType": "sc:Text",
+          "source": {
+            "fileSet": {
+              "@id": "parquet-files-for-config-example_meta"
+            },
+            "extract": {
+              "column": "geo_accession"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "example_meta/ID",
+          "dataType": "sc:Text",
+          "source": {
+            "fileSet": {
+              "@id": "parquet-files-for-config-example_meta"
+            },
+            "extract": {
+              "column": "ID"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "example_meta/study_ID",
+          "dataType": "sc:Text",
+          "source": {
+            "fileSet": {
+              "@id": "parquet-files-for-config-example_meta"
+            },
+            "extract": {
+              "column": "study_ID"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "example_meta/tissue",
+          "dataType": "sc:Text",
+          "source": {
+            "fileSet": {
+              "@id": "parquet-files-for-config-example_meta"
+            },
+            "extract": {
+              "column": "tissue"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "example_meta/platform",
+          "dataType": "sc:Text",
+          "source": {
+            "fileSet": {
+              "@id": "parquet-files-for-config-example_meta"
+            },
+            "extract": {
+              "column": "platform"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "example_meta/pathogen",
+          "dataType": "sc:Text",
+          "source": {
+            "fileSet": {
+              "@id": "parquet-files-for-config-example_meta"
+            },
+            "extract": {
+              "column": "pathogen"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "example_meta/batch",
+          "dataType": "cr:Float64",
+          "source": {
+            "fileSet": {
+              "@id": "parquet-files-for-config-example_meta"
+            },
+            "extract": {
+              "column": "batch"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "example_meta/title",
+          "dataType": "sc:Text",
+          "source": {
+            "fileSet": {
+              "@id": "parquet-files-for-config-example_meta"
+            },
+            "extract": {
+              "column": "title"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "example_meta/timepoint",
+          "dataType": "cr:Int64",
+          "source": {
+            "fileSet": {
+              "@id": "parquet-files-for-config-example_meta"
+            },
+            "extract": {
+              "column": "timepoint"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "example_meta/timepoint_group",
+          "dataType": "cr:Float64",
+          "source": {
+            "fileSet": {
+              "@id": "parquet-files-for-config-example_meta"
+            },
+            "extract": {
+              "column": "timepoint_group"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "example_meta/infection_group",
+          "dataType": "cr:Float64",
+          "source": {
+            "fileSet": {
+              "@id": "parquet-files-for-config-example_meta"
+            },
+            "extract": {
+              "column": "infection_group"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "example_meta/symptom_group",
+          "dataType": "cr:Float64",
+          "source": {
+            "fileSet": {
+              "@id": "parquet-files-for-config-example_meta"
+            },
+            "extract": {
+              "column": "symptom_group"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "example_meta/symptom_group_original",
+          "dataType": "cr:Float64",
+          "source": {
+            "fileSet": {
+              "@id": "parquet-files-for-config-example_meta"
+            },
+            "extract": {
+              "column": "symptom_group_original"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "example_meta/Total_DSS",
+          "dataType": "cr:Float64",
+          "source": {
+            "fileSet": {
+              "@id": "parquet-files-for-config-example_meta"
+            },
+            "extract": {
+              "column": "Total_DSS"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "example_meta/MFC",
+          "dataType": "cr:Float64",
+          "source": {
+            "fileSet": {
+              "@id": "parquet-files-for-config-example_meta"
+            },
+            "extract": {
+              "column": "MFC"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "example_meta/responder",
+          "dataType": "sc:Text",
+          "source": {
+            "fileSet": {
+              "@id": "parquet-files-for-config-example_meta"
+            },
+            "extract": {
+              "column": "responder"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "example_meta/responder_original",
+          "dataType": "cr:Float64",
+          "source": {
+            "fileSet": {
+              "@id": "parquet-files-for-config-example_meta"
+            },
+            "extract": {
+              "column": "responder_original"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "example_meta/study_group",
+          "dataType": "sc:Text",
+          "source": {
+            "fileSet": {
+              "@id": "parquet-files-for-config-example_meta"
+            },
+            "extract": {
+              "column": "study_group"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "example_meta/Enrollment_year",
+          "dataType": "cr:Float64",
+          "source": {
+            "fileSet": {
+              "@id": "parquet-files-for-config-example_meta"
+            },
+            "extract": {
+              "column": "Enrollment_year"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "example_meta/vaccine",
+          "dataType": "sc:Text",
+          "source": {
+            "fileSet": {
+              "@id": "parquet-files-for-config-example_meta"
+            },
+            "extract": {
+              "column": "vaccine"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "example_meta/vaccine_dose",
+          "dataType": "cr:Float64",
+          "source": {
+            "fileSet": {
+              "@id": "parquet-files-for-config-example_meta"
+            },
+            "extract": {
+              "column": "vaccine_dose"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "example_meta/sex",
+          "dataType": "sc:Text",
+          "source": {
+            "fileSet": {
+              "@id": "parquet-files-for-config-example_meta"
+            },
+            "extract": {
+              "column": "sex"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "example_meta/age",
+          "dataType": "cr:Float64",
+          "source": {
+            "fileSet": {
+              "@id": "parquet-files-for-config-example_meta"
+            },
+            "extract": {
+              "column": "age"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "example_meta/age_group",
+          "dataType": "cr:Float64",
+          "source": {
+            "fileSet": {
+              "@id": "parquet-files-for-config-example_meta"
+            },
+            "extract": {
+              "column": "age_group"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "example_meta/immport_expsamp_acc",
+          "dataType": "cr:Float64",
+          "source": {
+            "fileSet": {
+              "@id": "parquet-files-for-config-example_meta"
+            },
+            "extract": {
+              "column": "immport_expsamp_acc"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "example_meta/Expsample.Accession",
+          "dataType": "cr:Float64",
+          "source": {
+            "fileSet": {
+              "@id": "parquet-files-for-config-example_meta"
+            },
+            "extract": {
+              "column": "Expsample.Accession"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "example_meta/ethnicity",
+          "dataType": "sc:Text",
+          "source": {
+            "fileSet": {
+              "@id": "parquet-files-for-config-example_meta"
+            },
+            "extract": {
+              "column": "ethnicity"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "example_meta/race",
+          "dataType": "sc:Text",
+          "source": {
+            "fileSet": {
+              "@id": "parquet-files-for-config-example_meta"
+            },
+            "extract": {
+              "column": "race"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "example_meta/race_ethnicity",
+          "dataType": "cr:Float64",
+          "source": {
+            "fileSet": {
+              "@id": "parquet-files-for-config-example_meta"
+            },
+            "extract": {
+              "column": "race_ethnicity"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "example_meta/sham",
+          "dataType": "cr:Float64",
+          "source": {
+            "fileSet": {
+              "@id": "parquet-files-for-config-example_meta"
+            },
+            "extract": {
+              "column": "sham"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "example_meta/BMI",
+          "dataType": "cr:Float64",
+          "source": {
+            "fileSet": {
+              "@id": "parquet-files-for-config-example_meta"
+            },
+            "extract": {
+              "column": "BMI"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "example_meta/PreviousCOVID19",
+          "dataType": "cr:Float64",
+          "source": {
+            "fileSet": {
+              "@id": "parquet-files-for-config-example_meta"
+            },
+            "extract": {
+              "column": "PreviousCOVID19"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "example_meta/symptom_group_previous_covid",
+          "dataType": "sc:Text",
+          "source": {
+            "fileSet": {
+              "@id": "parquet-files-for-config-example_meta"
+            },
+            "extract": {
+              "column": "symptom_group_previous_covid"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "example_meta/UnderlyingDisease",
+          "dataType": "cr:Float64",
+          "source": {
+            "fileSet": {
+              "@id": "parquet-files-for-config-example_meta"
+            },
+            "extract": {
+              "column": "UnderlyingDisease"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "example_meta/turbo_reatment",
+          "dataType": "cr:Float64",
+          "source": {
+            "fileSet": {
+              "@id": "parquet-files-for-config-example_meta"
+            },
+            "extract": {
+              "column": "turbo_reatment"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "example_meta/Medications",
+          "dataType": "cr:Float64",
+          "source": {
+            "fileSet": {
+              "@id": "parquet-files-for-config-example_meta"
+            },
+            "extract": {
+              "column": "Medications"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "example_meta/side_effect",
+          "dataType": "sc:Text",
+          "source": {
+            "fileSet": {
+              "@id": "parquet-files-for-config-example_meta"
+            },
+            "extract": {
+              "column": "side_effect"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "example_meta/Duration_of_symptoms",
+          "dataType": "cr:Float64",
+          "source": {
+            "fileSet": {
+              "@id": "parquet-files-for-config-example_meta"
+            },
+            "extract": {
+              "column": "Duration_of_symptoms"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "example_meta/days.since.covid.19.diagnosis",
+          "dataType": "cr:Float64",
+          "source": {
+            "fileSet": {
+              "@id": "parquet-files-for-config-example_meta"
+            },
+            "extract": {
+              "column": "days.since.covid.19.diagnosis"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "example_meta/Vaccinated.in.prior.3.seasons",
+          "dataType": "cr:Float64",
+          "source": {
+            "fileSet": {
+              "@id": "parquet-files-for-config-example_meta"
+            },
+            "extract": {
+              "column": "Vaccinated.in.prior.3.seasons"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "example_meta/influenza.vaccination.count..previous.10.years.",
+          "dataType": "cr:Int64",
+          "source": {
+            "fileSet": {
+              "@id": "parquet-files-for-config-example_meta"
+            },
+            "extract": {
+              "column": "influenza.vaccination.count..previous.10.years."
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "example_meta/Height_cm",
+          "dataType": "cr:Float64",
+          "source": {
+            "fileSet": {
+              "@id": "parquet-files-for-config-example_meta"
+            },
+            "extract": {
+              "column": "Height_cm"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "example_meta/Weight_kg",
+          "dataType": "cr:Float64",
+          "source": {
+            "fileSet": {
+              "@id": "parquet-files-for-config-example_meta"
+            },
+            "extract": {
+              "column": "Weight_kg"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "example_meta/Current.smoker",
+          "dataType": "cr:Float64",
+          "source": {
+            "fileSet": {
+              "@id": "parquet-files-for-config-example_meta"
+            },
+            "extract": {
+              "column": "Current.smoker"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "example_meta/Prior.smoker",
+          "dataType": "cr:Float64",
+          "source": {
+            "fileSet": {
+              "@id": "parquet-files-for-config-example_meta"
+            },
+            "extract": {
+              "column": "Prior.smoker"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "example_meta/Sleep.apnea",
+          "dataType": "cr:Float64",
+          "source": {
+            "fileSet": {
+              "@id": "parquet-files-for-config-example_meta"
+            },
+            "extract": {
+              "column": "Sleep.apnea"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "example_meta/diabetes",
+          "dataType": "cr:Float64",
+          "source": {
+            "fileSet": {
+              "@id": "parquet-files-for-config-example_meta"
+            },
+            "extract": {
+              "column": "diabetes"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "example_meta/seroconversion",
+          "dataType": "cr:Float64",
+          "source": {
+            "fileSet": {
+              "@id": "parquet-files-for-config-example_meta"
+            },
+            "extract": {
+              "column": "seroconversion"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "example_meta/viral_shedding",
+          "dataType": "cr:Float64",
+          "source": {
+            "fileSet": {
+              "@id": "parquet-files-for-config-example_meta"
+            },
+            "extract": {
+              "column": "viral_shedding"
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "conformsTo": "http://mlcommons.org/croissant/1.1",
+  "name": "HR-VILAGE-3K3M",
+  "description": "\n\t\n\t\t\n\t\tHR-VILAGE-3K3M: Human Respiratory Viral Immunization Longitudinal Gene Expression\n\t\n\nThis repository provides the HR-VILAGE-3K3M dataset, a curated collection of human longitudinal gene expression profiles, antibody measurements, and aligned metadata from respiratory viral immunization and infection studies. The dataset includes baseline transcriptomic profiles and covers diverse exposure types (vaccination, inoculation, and mixed exposure). HR-VILAGE-3K3M is designed as a benchmark\u2026 See the full description on the dataset page: https://huggingface.co/datasets/xuejun72/HR-VILAGE-3K3M.",
+  "alternateName": [
+    "xuejun72/HR-VILAGE-3K3M"
+  ],
+  "creator": {
+    "@type": "Person",
+    "name": "Xuejun Sun",
+    "url": "https://huggingface.co/xuejun72"
+  },
+  "keywords": [
+    "zero-shot-classification",
+    "feature-extraction",
+    "token-classification",
+    "summarization",
+    "fill-mask",
+    "mit",
+    "< 1K",
+    "csv",
+    "Tabular",
+    "Text",
+    "Datasets",
+    "pandas",
+    "Croissant",
+    "Polars",
+    "\ud83c\uddfa\ud83c\uddf8 Region: US",
+    "biology",
+    "medical",
+    "gene",
+    "genomics",
+    "scRNA-seq",
+    "Bulk-Gene-Expression",
+    "Change-Point-Detection"
+  ],
+  "license": "https://choosealicense.com/licenses/mit/",
+  "url": "https://huggingface.co/datasets/xuejun72/HR-VILAGE-3K3M"
+}
