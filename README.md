@@ -45,6 +45,8 @@ import pandas as pd
 from datasets import load_dataset
 ```
 ## Bulk gene expression data
+To use the HR-VILAGE-3K3M dataset, please access the dataset via ![Hugging Face](https://huggingface.co/datasets/xuejun72/HR-VILAGE-3K3M).
+
 Bulk gene expression data can be loaded and combined using two alternative approaches.
 
 1. Use our predefined configuration name, and pass to `name` argument in `load_dataset()`. `trust_remote_code=True` and `revision="script"` are required.
