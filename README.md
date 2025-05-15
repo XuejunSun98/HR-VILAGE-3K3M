@@ -137,13 +137,6 @@ The combined object includes detailed cell-level metadata such as sample_id, cel
 
 # Example code:
 
-Single Cell Visualization
-```python
-import scanpy as sc
-# Visualize UMAP colored by dataset
-sc.pl.umap(combined, color='dataset', save='_combined_by_dataset.png', show=True)
-```
-
 The codes for data processing and reproducing evaluation results in the paper are in [Document](https://xuejunsun98.github.io/HR-VILAGE-3K3M/docs/index.html). 
 
 # Data Relations:
