@@ -157,3 +157,14 @@ The studies grouped below originate from the same research group and were typica
 ![Study relation](./relation.png)
 
 # How to cite:
+```
+@misc{sun2025hrvilage3k3mhumanrespiratoryviral,
+      title={HR-VILAGE-3K3M: A Human Respiratory Viral Immunization Longitudinal Gene Expression Dataset for Systems Immunity}, 
+      author={Xuejun Sun and Yiran Song and Xiaochen Zhou and Ruilie Cai and Yu Zhang and Xinyi Li and Rui Peng and Jialiu Xie and Yuanyuan Yan and Muyao Tang and Prem Lakshmanane and Baiming Zou and James S. Hagood and Raymond J. Pickles and Didong Li and Fei Zou and Xiaojing Zheng},
+      year={2025},
+      eprint={2505.14725},
+      archivePrefix={arXiv},
+      primaryClass={q-bio.GN},
+      url={https://arxiv.org/abs/2505.14725}, 
+}
+```
