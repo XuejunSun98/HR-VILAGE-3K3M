@@ -9,6 +9,15 @@ This repository provides the HR-VILAGE-3K3M dataset, a curated collection of hum
 ![Flowchart](./Flowchart.png)
 **Fig**: Overview of HR-VILAGE-3K3M. (a) HR-VILAGE-3K3M construction workflow. (b) Distribution of sample timepoints for vaccine and inoculation studies, , shown separately for bulk RNA-seq and single-cell RNA-seq datasets. (c) Composition of the dataset, stratified by platform, tissue type, study type, and pathogen, including both bulk and single-cell transcriptomic studies.
 
+# Update
+
+***Sep 9, 2025*** We corrected technical issues in GSE194378_gene_expr.csv, GSE199750_gene_expr.csv, and GSE276544_gene_expr.csv. These files have been re-uploaded, and users are advised to re-run analyses if relying on them.
+
+***Oct 13, 2025*** Data repo V2 release
+1. GSE169159_gene_expr.csv: updated to incorporate the authors’ latest data revision.
+2. GSE230494_antibody.csv: added antibody measurements and updated the corresponding metadata.
+3. study_meta: updated to include the number of genes and timepoint information; added Meta_variable_description.csv.
+
 # Dataset Description:
 - This repo contains 66 studies (59 bulk and 7 single cell studies), comprising 3178 subjects and 14,136 observations along with 2,557,942 single cells.
 - We provide preprocessed and normalized gene expression data, raw gene expression data, metadata and antibody data.
