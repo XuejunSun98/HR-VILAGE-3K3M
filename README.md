@@ -165,6 +165,11 @@ GSE73072_H3N2_DEE2 ──┘
 The studies grouped below originate from the same research group and were typically processed using consistent experimental and technical pipelines. Consequently, these studies are expected to exhibit minimal batch effects compared to those conducted independently. We provide this grouping information to assist users interested in pooling data across studies—combining studies from the same group can help mitigate confounding technical variability and enhance statistical power in downstream analyses such as differential expression. Notably, GSE201533 and GSE201534 represent paired bulk RNA-seq and single-cell RNA-seq data from the same subjects, while GSE246937 is paired with GSE246525, offering a valuable opportunity for multi-resolution analyses.
 ![Study relation](./relation.png)
 
+# License:
+HR-VILAGE-3K3M — both the curated data files and the processing code in this repository — is released under the [Creative Commons Attribution 4.0 International (CC-BY-4.0)](https://creativecommons.org/licenses/by/4.0/) license, matching the license of the [Hugging Face dataset](https://huggingface.co/datasets/xuejun72/HR-VILAGE-3K3M). The underlying studies remain subject to the terms of their original source repositories; see `study_citations.csv` for the record and citation of each.
+
+Note: the rendered documentation under `docs/` bundles third-party JavaScript and CSS libraries (Bootstrap, jQuery, and others) that carry their own licenses, stated in those files.
+
 # How to cite:
 Please cite both the paper and the dataset.
 

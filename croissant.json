@@ -1674,7 +1674,7 @@
   ],
   "conformsTo": "http://mlcommons.org/croissant/1.1",
   "name": "HR-VILAGE-3K3M",
-  "description": "\n\t\n\t\t\n\t\tHR-VILAGE-3K3M: Human Respiratory Viral Immunization Longitudinal Gene Expression\n\t\n\nThis repository provides the HR-VILAGE-3K3M dataset, a curated collection of human longitudinal gene expression profiles, antibody measurements, and aligned metadata from respiratory viral immunization and infection studies. The dataset includes baseline transcriptomic profiles and covers diverse exposure types (vaccination, inoculation, and mixed exposure). HR-VILAGE-3K3M is designed as a benchmark\u2026 See the full description on the dataset page: https://huggingface.co/datasets/xuejun72/HR-VILAGE-3K3M.",
+  "description": "\n\t\n\t\t\n\t\tHR-VILAGE-3K3M: Human Respiratory Viral Immunization Longitudinal Gene Expression\n\t\n\nThis repository provides the HR-VILAGE-3K3M dataset, a curated collection of human longitudinal gene expression profiles, antibody measurements, and aligned metadata from respiratory viral immunization and infection studies. The dataset includes baseline transcriptomic profiles and covers diverse exposure types (vaccination, inoculation, and mixed exposure). HR-VILAGE-3K3M is designed as a benchmark… See the full description on the dataset page: https://huggingface.co/datasets/xuejun72/HR-VILAGE-3K3M.",
   "alternateName": [
     "xuejun72/HR-VILAGE-3K3M"
   ],
@@ -1698,7 +1698,7 @@
     "pandas",
     "Croissant",
     "Polars",
-    "\ud83c\uddfa\ud83c\uddf8 Region: US",
+    "🇺🇸 Region: US",
     "biology",
     "medical",
     "gene",
@@ -1707,6 +1707,6 @@
     "Bulk-Gene-Expression",
     "Change-Point-Detection"
   ],
-  "license": "https://choosealicense.com/licenses/mit/",
+  "license": "https://creativecommons.org/licenses/by/4.0/",
   "url": "https://huggingface.co/datasets/xuejun72/HR-VILAGE-3K3M"
 }
