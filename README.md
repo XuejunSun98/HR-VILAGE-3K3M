@@ -18,31 +18,35 @@ This repository provides the HR-VILAGE-3K3M dataset, a curated collection of hum
 2. GSE230494_antibody.csv: added antibody measurements and updated the corresponding metadata.
 3. study_meta: updated to include the number of genes and timepoint information; added Meta_variable_description.csv.
 
+***Aug 28, 2026*** Data repo V3 release
+1. Removed `bulk_gene_expr_raw/`. The raw, study-author-provided expression files are no longer redistributed; they remain available from the original source records.
+2. Added `study_citations.csv`, giving the source-publication citation, the dataset citation, and a direct link to the original record at GEO, ArrayExpress, or ImmPort for each of the 66 studies. **This is where to obtain the raw data for a study.**
+3. The dataset is now released under CC-BY-4.0 and has a DOI, [10.57967/hf/9892](https://doi.org/10.57967/hf/9892).
+
 # Dataset Description:
 - This repo contains 66 studies (59 bulk and 7 single cell studies), comprising 3178 subjects and 14,136 observations along with 2,557,942 single cells.
-- We provide preprocessed and normalized gene expression data, raw gene expression data, metadata and antibody data.
+- We provide preprocessed and normalized gene expression data, metadata and antibody data. Raw source files are not redistributed here; `study_citations.csv` cites and links each study's original record.
 
 # Data Structure:
 ```
 HR-VILAGE-3K3M/
 ├── README.md
 ├── study_meta.csv
+├── study_citations.csv
 ├── bulk_gene_expr/
 │    └── <study_ID>_gene_expr.csv
 ├── singel_cell_gene_expr/
 │    └── <study_ID>.h5ad
 ├── meta/
 │    └── <study_ID>_meta.csv
-├── bulk_gene_expr_raw/
-│    └── <study_ID>_raw.csv
 └── antibody/
      └── <study_ID>_antibody.csv
 ```
 - **study_meta.csv**: Contains study-level metadata (e.g., platform, tissue type, study type) and serves as an overview of the repository. Users can use this file to filter and select a subset of studies based on custom criteria.
+- **study_citations.csv**: Per-study provenance for all 66 studies: the source publication citation, the dataset citation for the original record, and links to the transcriptomic data, metadata, and antibody data at the source repository. **This is where to find the raw data for a given study**, which is not redistributed in this repository. Join it to `study_meta.csv` on `study_ID`.
 - **bulk_gene_expr/**: Processed gene expression matrices for each study (sample-by-gene). All files share the same 41,667 gene columns, with 9,004 genes non-missing across all studies.
 - **singel_cell_gene_expr/**: Processed single cell gene expression matrices for each study in h5ad format. Raw count matrices are stored in the .X attribute, and cell-level metadata is stored in the .obs dataframe. 
 - **meta/**: Study-specific metadata files (.csv), aligned by row names with the corresponding expression data. All metadata files share the same column structure; missing values are marked as NA.
-- **bulk_gene_expr_raw/**: Raw probe-level expression matrices (probe-by-sample), provided when available to support custom preprocessing workflows.
 - **antibody/**: Raw antibody measurements with sample IDs matching those in the metadata, enabling integration with gene expression data at the subject level.
 
 # How to start:
@@ -117,11 +121,7 @@ Bulk gene expression data can be loaded and combined using two alternative appro
    ```python
    antibody = load_dataset(repo_id, data_files = "antibody/GSE194378_antibody.csv")["train"].to_pandas()
    ```
-   Example 3, to download raw gene expression dataset for GSE194378:
-   ```python
-   raw = load_dataset(repo_id, data_files = "bulk_gene_expr_raw/GSE194378_raw.csv")["train"].to_pandas()
-   ```
-   Note: for **antibody** and **raw gene expression** datasets, since different study has different columns which cannot be simply combined, loading them must using `data_files` argument and be one-by-one.
+   Note: for **antibody** datasets, since different study has different columns which cannot be simply combined, loading them must using `data_files` argument and be one-by-one.
 
 ## Single cell gene expression data
 Single-cell gene expression data can be downloaded and accessed using the anndata package.
@@ -166,14 +166,29 @@ The studies grouped below originate from the same research group and were typica
 ![Study relation](./relation.png)
 
 # How to cite:
+Please cite both the paper and the dataset.
+
+**Paper**
 ```
-@misc{sun2025hrvilage3k3mhumanrespiratoryviral,
+@misc{sun2026hrvilage3k3mhumanrespiratoryviral,
+      title={HR-VILAGE-3K3M: A Human Respiratory Viral Immunization Longitudinal Gene Expression Dataset for Systems Immunity}, 
+      author={Xuejun Sun and Yiran Song and Xiaochen Zhou and Ruilie Cai and Yu Zhang and Xinyi Li and Rui Peng and Jialiu Xie and Yuanyuan Yan and Muyao Tang and Prem Lakshmanane and Baiming Zou and James S. Hagood and Raymond J. Pickles and Didong Li and Fei Zou and Xiaojing Zheng},
+      year={2026},
+      eprint={2505.14725v2},
+      archivePrefix={arXiv},
+      primaryClass={q-bio.GN},
+      url={https://arxiv.org/abs/2505.14725v2}, 
+}
+```
+
+**Dataset**
+```
+@misc{hrvilage3k3m_dataset,
       title={HR-VILAGE-3K3M: A Human Respiratory Viral Immunization Longitudinal Gene Expression Dataset for Systems Immunity}, 
       author={Xuejun Sun and Yiran Song and Xiaochen Zhou and Ruilie Cai and Yu Zhang and Xinyi Li and Rui Peng and Jialiu Xie and Yuanyuan Yan and Muyao Tang and Prem Lakshmanane and Baiming Zou and James S. Hagood and Raymond J. Pickles and Didong Li and Fei Zou and Xiaojing Zheng},
       year={2025},
-      eprint={2505.14725},
-      archivePrefix={arXiv},
-      primaryClass={q-bio.GN},
-      url={https://arxiv.org/abs/2505.14725}, 
+      publisher={Hugging Face},
+      doi={10.57967/hf/9892},
+      url={https://doi.org/10.57967/hf/9892}, 
 }
 ```
